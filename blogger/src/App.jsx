@@ -11,7 +11,6 @@ function App() {
   const [blogs, setBlogs] = useState([]); 
   const [selectedBlog, setSelectedBlog] = useState(null);  
 
-  
   useEffect(() => {
     const savedBlogs = JSON.parse(localStorage.getItem('blogs'));
     if (savedBlogs) {
@@ -19,7 +18,6 @@ function App() {
     }
   }, []);
 
-  
   const addBlog = (newBlog) => {
     const updatedBlogs = [...blogs, newBlog];  
     setBlogs(updatedBlogs);
@@ -36,6 +34,13 @@ function App() {
   };
   const goBackToBlogs = () => setCurrentView('blogs');
 
+  const deleteBlog = (blogToDelete) => {
+    const updatedBlogs = blogs.filter(blog => blog !== blogToDelete);
+    setBlogs(updatedBlogs);
+    localStorage.setItem('blogs', JSON.stringify(updatedBlogs));
+    setCurrentView('blogs');
+  };
+
   return (
     <div className="flex flex-col">
       <Navbar />
@@ -45,7 +50,7 @@ function App() {
         {currentView === 'main' && <Main />}
         {currentView === 'newBlog' && <NewBlog addBlog={addBlog} />}
         {currentView === 'blogs' && <Blogs blogs={blogs} viewFullBlog={viewFullBlog} />}
-        {currentView === 'fullBlog' && selectedBlog && <Full selectedBlog={selectedBlog} goBack={goBackToBlogs} />}
+        {currentView === 'fullBlog' && selectedBlog && <Full selectedBlog={selectedBlog} goBack={goBackToBlogs} deleteBlog={deleteBlog} />}
       </div>
     </div>
   );

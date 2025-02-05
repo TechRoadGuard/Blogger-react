@@ -6,7 +6,7 @@ const Navbar = () => {
     
       <div className="flex items-center space-x-2">
         <img src="src/assets/blog.png" alt="Logo" className="h-10 w-10" />
-        <h1 className="text-xl font-bold text-gray-800">BlogVibe</h1>
+        <h1 className="text-xl font-bold font-serif  text-gray-800">BlogVibe</h1>
       </div>
 
       <div className="relative w-1/3">
