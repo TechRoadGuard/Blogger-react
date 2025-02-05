@@ -5,7 +5,7 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 bg-white shadow-md py-3 px-6 flex justify-between items-center z-10">
     
       <div className="flex items-center space-x-2">
-        <img src="src/assets/blog.png" alt="Logo" className="h-10 w-10" />
+        <img src="blog.png" alt="Logo" className="h-10 w-10" />
         <h1 className="text-xl font-bold font-serif  text-gray-800">BlogVibe</h1>
       </div>
 
