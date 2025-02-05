@@ -7,8 +7,6 @@ const Full = ({ selectedBlog, goBack, deleteBlog }) => {
   const [showCommentInput, setShowCommentInput] = useState(false);
   const [newComment, setNewComment] = useState('');
   const [comments, setComments] = useState([]);
-
-  // Fetch comments specific to the current blog using the blog's ID
   useEffect(() => {
     const storedComments = JSON.parse(localStorage.getItem(`comments-${selectedBlog.id}`)) || [];
     setComments(storedComments);
@@ -28,14 +26,13 @@ const Full = ({ selectedBlog, goBack, deleteBlog }) => {
 
   const handleCommentSubmit = () => {
     if (newComment.trim()) {
-      // Save the new comment to localStorage under a key specific to this blog
       const updatedComments = [...comments, newComment];
       setComments(updatedComments);
 
-      // Store the updated list of comments in localStorage using the blog's ID
+      
       localStorage.setItem(`comments-${selectedBlog.id}`, JSON.stringify(updatedComments));
 
-      setNewComment(''); // Clear input after submission
+      setNewComment(''); 
     }
   };
 
@@ -83,8 +80,6 @@ const Full = ({ selectedBlog, goBack, deleteBlog }) => {
           <span>Comment</span>
         </button>
       </div>
-
-      {/* Show comment input if showCommentInput is true */}
       {showCommentInput && (
         <div className="mt-4">
           <textarea
@@ -103,7 +98,6 @@ const Full = ({ selectedBlog, goBack, deleteBlog }) => {
         </div>
       )}
 
-      {/* Display comments for the current blog */}
       <div className="mt-6">
         {comments.length > 0 && (
           <div className="space-y-4">

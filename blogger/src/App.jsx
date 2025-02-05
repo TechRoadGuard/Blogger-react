@@ -19,8 +19,7 @@ function App() {
   }, []);
 
   const addBlog = (newBlog) => {
-    // Assign a unique ID to each new blog
-    const blogWithId = { ...newBlog, id: Date.now() }; // Using current timestamp as a unique id
+    const blogWithId = { ...newBlog, id: Date.now() }; 
     const updatedBlogs = [...blogs, blogWithId];  
     setBlogs(updatedBlogs);
     localStorage.setItem('blogs', JSON.stringify(updatedBlogs));  
@@ -37,7 +36,7 @@ function App() {
   const goBackToBlogs = () => setCurrentView('blogs');
 
   const deleteBlog = (blogToDelete) => {
-    const updatedBlogs = blogs.filter(blog => blog.id !== blogToDelete.id); // Delete by ID
+    const updatedBlogs = blogs.filter(blog => blog.id !== blogToDelete.id); 
     setBlogs(updatedBlogs);
     localStorage.setItem('blogs', JSON.stringify(updatedBlogs));
     setCurrentView('blogs');
