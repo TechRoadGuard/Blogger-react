@@ -1,12 +1,42 @@
 import PropTypes from 'prop-types';
 import { ThumbsUp, Share2, MessageSquare } from "lucide-react";  
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const Full = ({ selectedBlog, goBack, deleteBlog }) => {
   const [liked, setLiked] = useState(false);
+  const [showCommentInput, setShowCommentInput] = useState(false);
+  const [newComment, setNewComment] = useState('');
+  const [comments, setComments] = useState([]);
+
+  // Fetch comments specific to the current blog using the blog's ID
+  useEffect(() => {
+    const storedComments = JSON.parse(localStorage.getItem(`comments-${selectedBlog.id}`)) || [];
+    setComments(storedComments);
+  }, [selectedBlog.id]);
 
   const handleLike = () => {
     setLiked(!liked);
+  };
+
+  const handleCommentToggle = () => {
+    setShowCommentInput(!showCommentInput);
+  };
+
+  const handleCommentChange = (e) => {
+    setNewComment(e.target.value);
+  };
+
+  const handleCommentSubmit = () => {
+    if (newComment.trim()) {
+      // Save the new comment to localStorage under a key specific to this blog
+      const updatedComments = [...comments, newComment];
+      setComments(updatedComments);
+
+      // Store the updated list of comments in localStorage using the blog's ID
+      localStorage.setItem(`comments-${selectedBlog.id}`, JSON.stringify(updatedComments));
+
+      setNewComment(''); // Clear input after submission
+    }
   };
 
   return (
@@ -45,10 +75,46 @@ const Full = ({ selectedBlog, goBack, deleteBlog }) => {
           <Share2 className="w-6 h-6" />
           <span>Share</span>
         </button>
-        <button className="flex items-center space-x-2 hover:text-yellow-500 cursor-pointer">
+        <button 
+          onClick={handleCommentToggle}
+          className="flex items-center space-x-2 hover:text-yellow-500 cursor-pointer"
+        >
           <MessageSquare className="w-6 h-6" />
           <span>Comment</span>
         </button>
+      </div>
+
+      {/* Show comment input if showCommentInput is true */}
+      {showCommentInput && (
+        <div className="mt-4">
+          <textarea
+            value={newComment}
+            onChange={handleCommentChange}
+            placeholder="Write your comment..."
+            className="w-full p-2 border rounded-lg"
+            rows="4"
+          />
+          <button 
+            onClick={handleCommentSubmit}
+            className="mt-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+          >
+            Submit Comment
+          </button>
+        </div>
+      )}
+
+      {/* Display comments for the current blog */}
+      <div className="mt-6">
+        {comments.length > 0 && (
+          <div className="space-y-4">
+            <h3 className="font-bold text-lg">Comments</h3>
+            <ul className="space-y-2">
+              {comments.map((comment, index) => (
+                <li key={index} className="p-2 border-b">{comment}</li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </div>
   );
